@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
+function slugify(title) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9çğıöşü\s-]/g, '')
+    .replace(/[çÇğĞıİöÖşŞüÜ]/g, c => ({'ç':'c','Ç':'c','ğ':'g','Ğ':'g','ı':'i','İ':'i','ö':'o','Ö':'o','ş':'s','Ş':'s','ü':'u','Ü':'u'}[c]||c))
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 const BlogDetailPage = () => {
   const { slug } = useParams();
   const [blog, setBlog] = useState(null);
 
-  const blogDatabase = {
-    "dijital-bankacilik-finans-dunyasinda-yeni-bir-cag": {
+  const blogs = [
+    {
       id: 1,
       title: "Dijital Bankacılık: Finans Dünyasında Yeni Bir Çağ",
-      slug: "dijital-bankacilik-finans-dunyasinda-yeni-bir-cag",
       author: "Mehmet Yılmaz",
       authorImage: "https://randomuser.me/api/portraits/men/32.jpg",
       date: "15 Mart 2024",
@@ -56,14 +65,13 @@ const BlogDetailPage = () => {
         <p class="mb-4">Bir sonraki yazımızda, dijital bankacılık alanındaki düzenlemeler ve müşteri gizliliği konularına daha detaylı değineceğiz. Takipte kalın!</p>
       `,
       relatedPosts: [
-        "finansal-teknolojilerin-kobilere-sagladigi-avantajlar",
-        "elektronik-odeme-sistemleri-ve-guvenlik",
+        "Finansal Teknolojilerin KOBİ'lere Sağladığı Avantajlar",
+        "Elektronik Ödeme Sistemleri ve Güvenlik",
       ],
     },
-    "finansal-teknolojilerin-kobilere-sagladigi-avantajlar": {
+    {
       id: 2,
       title: "Finansal Teknolojilerin KOBİ'lere Sağladığı Avantajlar",
-      slug: "finansal-teknolojilerin-kobilere-sagladigi-avantajlar",
       author: "Ayşe Demir",
       authorImage: "https://randomuser.me/api/portraits/women/44.jpg",
       date: "14 Mart 2024",
@@ -97,14 +105,13 @@ const BlogDetailPage = () => {
         <p class="mb-4">Kitlesel fonlama, P2P krediler ve fatura finansmanı gibi alternatif finansman platformları, KOBİ'lerin geleneksel banka kredilerine bağımlılığını azaltır ve daha esnek finansman seçenekleri sunar.</p>
       `,
       relatedPosts: [
-        "dijital-bankacilik-finans-dunyasinda-yeni-bir-cag",
-        "elektronik-odeme-sistemleri-ve-guvenlik",
+        "Dijital Bankacılık: Finans Dünyasında Yeni Bir Çağ",
+        "Elektronik Ödeme Sistemleri ve Güvenlik",
       ],
     },
-    "elektronik-odeme-sistemleri-ve-guvenlik": {
+    {
       id: 3,
       title: "Elektronik Ödeme Sistemleri ve Güvenlik",
-      slug: "elektronik-odeme-sistemleri-ve-guvenlik",
       author: "Ahmet Kaya",
       authorImage: "https://randomuser.me/api/portraits/men/64.jpg",
       date: "13 Mart 2024",
@@ -151,14 +158,13 @@ const BlogDetailPage = () => {
         </div>
       `,
       relatedPosts: [
-        "dijital-bankacilik-finans-dunyasinda-yeni-bir-cag",
-        "finansal-teknolojilerin-kobilere-sagladigi-avantajlar",
+        "Dijital Bankacılık: Finans Dünyasında Yeni Bir Çağ",
+        "Finansal Teknolojilerin KOBİ'lere Sağladığı Avantajlar",
       ],
     },
-    "modern-pos-cihazlari-ile-isletmenizde-verimliligi-artirin": {
+    {
       id: 4,
       title: "Modern POS Cihazları ile İşletmenizde Verimliliği Artırın",
-      slug: "modern-pos-cihazlari-ile-isletmenizde-verimliligi-artirin",
       author: "Heranında",
       authorImage: "https://randomuser.me/api/portraits/men/22.jpg",
       date: "10 Mart 2024",
@@ -199,41 +205,25 @@ const BlogDetailPage = () => {
         <p class="mb-4">Daha fazla bilgi için bizimle iletişime geçebilir, ihtiyaçlarınıza özel çözümler için danışabilirsiniz.</p>
       `,
       relatedPosts: [
-        "finansal-teknolojilerin-kobilere-sagladigi-avantajlar",
-        "elektronik-odeme-sistemleri-ve-guvenlik",
+        "Dijital Bankacılık: Finans Dünyasında Yeni Bir Çağ",
       ],
     },
-  };
+  ];
 
   useEffect(() => {
-    if (slug && blogDatabase[slug]) {
-      setBlog(blogDatabase[slug]);
-      document.title = blogDatabase[slug].title;
-    }
+    const found = blogs.find((b) => slugify(b.title) === slug);
+    setBlog(found || null);
   }, [slug]);
 
   if (!blog) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800">Blog bulunamadı</h2>
-          <p className="mt-2 text-gray-600">
-            Aradığınız içerik mevcut değil veya yüklenemedi.
-          </p>
-          <Link
-            to="/"
-            className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Ana Sayfaya Dön
-          </Link>
-        </div>
-      </div>
-    );
+    return <div className="text-center py-20 text-2xl">Blog bulunamadı.</div>;
   }
 
   // İlgili blog yazılarını alıyorum
   const relatedPosts = blog.relatedPosts
-    ? blog.relatedPosts.map((postSlug) => blogDatabase[postSlug])
+    ? blog.relatedPosts
+        .map((postTitle) => blogs.find((b) => slugify(b.title) === slugify(postTitle)))
+        .filter(Boolean)
     : [];
 
   return (
@@ -331,7 +321,7 @@ const BlogDetailPage = () => {
                       <span>{post.date}</span>
                     </div>
                     <Link
-                      to={`/blog/${post.slug}`}
+                      to={`/blog/${slugify(post.title)}`}
                       className="mt-4 text-blue-600 font-medium hover:text-blue-800 transition-colors duration-300"
                     >
                       Okumaya Git →
@@ -371,4 +361,5 @@ const BlogDetailPage = () => {
 };
 
 export default BlogDetailPage;
+
 

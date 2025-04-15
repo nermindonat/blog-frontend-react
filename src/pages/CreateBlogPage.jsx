@@ -222,28 +222,6 @@ const CreateBlogPage = () => {
             {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title}</p>}
           </div>
           <div className="mb-6">
-            <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
-              URL Slug
-            </label>
-            <div className="flex rounded-md shadow-sm">
-              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                /blog/
-              </span>
-              <input
-                type="text"
-                id="slug"
-                name="slug"
-                value={formData.slug}
-                onChange={handleChange}
-                className="flex-1 block w-full rounded-none rounded-r-md border border-gray-300 px-4 py-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="otomatik-olarak-olusturulur"
-              />
-            </div>
-            <p className="mt-1 text-xs text-gray-500">
-              URL slug otomatik oluşturulur, isteğe bağlı olarak değiştirebilirsiniz.
-            </p>
-          </div>
-          <div className="mb-6">
             <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-1">
               Özet <span className="text-red-500">*</span>
             </label>
@@ -444,4 +422,5 @@ const CreateBlogPage = () => {
 };
 
 export default CreateBlogPage;
+
 

@@ -1,12 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+function slugify(title) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9çğıöşü\s-]/g, '')
+    .replace(/[çÇğĞıİöÖşŞüÜ]/g, c => ({'ç':'c','Ç':'c','ğ':'g','Ğ':'g','ı':'i','İ':'i','ö':'o','Ö':'o','ş':'s','Ş':'s','ü':'u','Ü':'u'}[c]||c))
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 const BlogListData = () => {
   const blogs = [
     {
       id: 1,
       title: "Dijital Bankacılık: Finans Dünyasında Yeni Bir Çağ",
-      slug: "dijital-bankacilik-finans-dunyasinda-yeni-bir-cag",
       excerpt:
         "Dijital bankacılık hizmetlerinin gelişimi ve finansal ekosistem üzerindeki dönüştürücü etkisi.",
       author: "Mehmet Yılmaz",
@@ -18,7 +27,6 @@ const BlogListData = () => {
     {
       id: 2,
       title: "Finansal Teknolojilerin KOBİ'lere Sağladığı Avantajlar",
-      slug: "finansal-teknolojilerin-kobilere-sagladigi-avantajlar",
       excerpt:
         "Modern fintech çözümleri, küçük ve orta ölçekli işletmelere nasıl rekabet avantajı sağlıyor?",
       author: "Ayşe Demir",
@@ -30,7 +38,6 @@ const BlogListData = () => {
     {
       id: 3,
       title: "Elektronik Ödeme Sistemleri ve Güvenlik",
-      slug: "elektronik-odeme-sistemleri-ve-guvenlik",
       excerpt:
         "E-ticaret ve fiziksel mağazalarda ödeme güvenliğini artıran yöntemler ve teknolojiler.",
       author: "Ahmet Kaya",
@@ -42,7 +49,6 @@ const BlogListData = () => {
     {
       id: 4,
       title: "Modern POS Cihazları ile İşletmenizde Verimliliği Artırın",
-      slug: "modern-pos-cihazlari-ile-isletmenizde-verimliligi-artirin",
       excerpt:
         "Modern POS cihazlarının işletmenizde verimliliği nasıl artıracağına dair kapsamlı bir rehber.",
       author: "Heranında",
@@ -89,7 +95,7 @@ const BlogListData = () => {
                   <span>{blog.date}</span>
                 </div>
 
-                <Link to={`/blog/${blog.slug}`} className="block">
+                <Link to={`/blog/${slugify(blog.title)}`} className="block">
                   <h2 className="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors duration-300">
                     {blog.title}
                   </h2>
@@ -98,7 +104,7 @@ const BlogListData = () => {
                 <p className="text-gray-600 mb-4">{blog.excerpt}</p>
 
                 <Link
-                  to={`/blog/${blog.slug}`}
+                  to={`/blog/${slugify(blog.title)}`}
                   className="text-blue-600 font-medium hover:text-blue-800 transition-colors duration-300 inline-block"
                 >
                   Devamını Oku →
@@ -113,4 +119,5 @@ const BlogListData = () => {
 };
 
 export default BlogListData;
+
 
