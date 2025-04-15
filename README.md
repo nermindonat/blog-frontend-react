@@ -16,7 +16,7 @@
 
 # Blog Create Page 
 
-![image](https://github.com/user-attachments/assets/554ac7ab-6840-47a1-8360-d4cd2f3b7d3c)
+![image](https://github.com/user-attachments/assets/6477c8e5-083f-4226-85fa-3735a2e0d748)
 ![image](https://github.com/user-attachments/assets/fbfcf705-5f84-4639-8ae6-42bd513161b1)
 
 
