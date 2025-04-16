@@ -1,36 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Input from '../components/Input';
-import Button from '../components/Button';
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import Input from "../components/Input";
+import Button from "../components/Button";
 
-const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Geçerli bir e-posta adresi giriniz")
+    .required("E-posta adresi gereklidir"),
+  password: Yup.string()
+    .required("Şifre gereklidir")
+    .min(6, "Şifre en az 6 karakter olmalıdır"),
+});
 
-  const [errors, setErrors] = useState({});
+const initialValues = {
+  email: "",
+  password: "",
+  rememberMe: false,
+};
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
+const LoginPage = () => {
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log("Form gönderildi:", values);
+    setSubmitting(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
-        <div>
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="mb-6">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Hesabınıza Giriş Yapın
+            Hesabınıza giriş yapın
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Veya{" "}
@@ -42,62 +43,66 @@ const Login = () => {
             </Link>
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <Input
-              label="E-posta Adresi"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="E-posta adresiniz"
-              error={errors.email}
-              required
-            />
-            <Input
-              label="Şifre"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Şifreniz"
-              error={errors.password}
-              required
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="rememberMe"
-                type="checkbox"
-                checked={formData.rememberMe}
-                onChange={handleChange}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-900"
-              >
-                Beni hatırla
-              </label>
-            </div>
 
-            <div className="text-sm">
-              <Link
-                to="/forgot-password"
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
-                Şifremi unuttum
-              </Link>
-            </div>
-          </div>
-          <div>
-            <Button type="submit">
-              Giriş Yap
-            </Button>
-          </div>
-        </form>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form className="space-y-6" noValidate>
+              <Field
+                name="email"
+                component={Input}
+                label="E-posta"
+                type="email"
+                placeholder="E-posta adresinizi girin"
+                required={true}
+              />
+
+              <Field
+                name="password"
+                component={Input}
+                label="Şifre"
+                type="password"
+                placeholder="Şifrenizi girin"
+                required={true}
+              />
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Field
+                    type="checkbox"
+                    name="rememberMe"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label
+                    htmlFor="rememberMe"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
+                    Beni hatırla
+                  </label>
+                </div>
+
+                <div className="text-sm">
+                  <Link
+                    to="/sifremi-unuttum"
+                    className="font-medium text-blue-600 hover:text-blue-500"
+                  >
+                    Şifremi unuttum
+                  </Link>
+                </div>
+              </div>
+
+              <div>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? "Giriş yapılıyor..." : "Giriş Yap"}
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -140,4 +145,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

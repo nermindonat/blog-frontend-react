@@ -1,89 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Input from '../components/Input';
-import Button from '../components/Button';
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import Input from "../components/Input";
+import Button from "../components/Button";
 
-const Register = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
+const validationSchema = Yup.object().shape({
+  fullName: Yup.string()
+    .required("Ad Soyad gereklidir")
+    .min(3, "Ad Soyad en az 3 karakter olmalıdır"),
+  email: Yup.string()
+    .email("Geçerli bir e-posta adresi giriniz")
+    .required("E-posta adresi gereklidir"),
+  phone: Yup.string()
+    .required("Telefon numarası gereklidir")
+    .matches(/^[0-9]{10}$/, "Geçerli bir telefon numarası giriniz"),
+  password: Yup.string()
+    .required("Şifre gereklidir")
+    .min(6, "Şifre en az 6 karakter olmalıdır")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/,
+      "Şifre en az bir büyük harf, bir küçük harf ve bir rakam içermelidir"
+    ),
+});
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState({});
+const initialValues = {
+  fullName: "",
+  email: "",
+  phone: "",
+  password: "",
+};
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
+const RegisterPage = () => {
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log("Form gönderildi:", values);
+    setSubmitting(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
-        <div>
-          <h2 className="mt-4 text-center text-2xl font-bold text-gray-900">
-            Yeni Hesap Oluşturun
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="mb-6">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Yeni hesap oluşturun
           </h2>
-        </div>
-        <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
-          <Input
-            label="Ad Soyad"
-            type="text"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            placeholder="Adınızı ve soyadınızı girin"
-            error={errors.fullName}
-            required
-          />
-          <Input
-            label="E-posta"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="E-posta adresinizi girin"
-            error={errors.email}
-            required
-          />
-          <Input
-            label="Telefon"
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="Telefon numaranızı girin"
-            error={errors.phone}
-            required
-          />
-          <Input
-            label="Şifre"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Şifrenizi girin"
-            error={errors.password}
-            required
-          />
-          <div className="mt-6">
-            <Button type="submit">
-              Kayıt Ol
-            </Button>
-          </div>
-        </form>
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-gray-600">
             Zaten hesabınız var mı?{" "}
             <Link
               to="/login"
@@ -93,10 +54,61 @@ const Register = () => {
             </Link>
           </p>
         </div>
+
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form className="space-y-6" noValidate>
+              <Field
+                name="fullName"
+                component={Input}
+                label="Ad Soyad"
+                type="text"
+                placeholder="Adınızı ve soyadınızı girin"
+                required={true}
+              />
+
+              <Field
+                name="email"
+                component={Input}
+                label="E-posta"
+                type="email"
+                placeholder="E-posta adresinizi girin"
+                required={true}
+              />
+
+              <Field
+                name="phone"
+                component={Input}
+                label="Telefon"
+                type="tel"
+                placeholder="Telefon numaranızı girin"
+                required={true}
+              />
+
+              <Field
+                name="password"
+                component={Input}
+                label="Şifre"
+                type="password"
+                placeholder="Şifrenizi girin"
+                required={true}
+              />
+
+              <div>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? "Kaydediliyor..." : "Kayıt Ol"}
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );
 };
 
-export default Register;
-
+export default RegisterPage;
