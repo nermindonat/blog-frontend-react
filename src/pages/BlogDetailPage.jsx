@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { slugify } from "../utils/slugify";
 
-function slugify(title) {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9çğıöşü\s-]/g, '')
-    .replace(/[çÇğĞıİöÖşŞüÜ]/g, c => ({'ç':'c','Ç':'c','ğ':'g','Ğ':'g','ı':'i','İ':'i','ö':'o','Ö':'o','ş':'s','Ş':'s','ü':'u','Ü':'u'}[c]||c))
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-const BlogDetailPage = () => {
+const BlogDetail = () => {
   const { slug } = useParams();
   const [blog, setBlog] = useState(null);
 
@@ -360,6 +351,6 @@ const BlogDetailPage = () => {
   );
 };
 
-export default BlogDetailPage;
+export default BlogDetail;
 
 

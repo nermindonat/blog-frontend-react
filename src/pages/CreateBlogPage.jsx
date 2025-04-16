@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const CreateBlogPage = () => {
+const CreateBlog = () => {
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -421,6 +421,7 @@ const CreateBlogPage = () => {
   );
 };
 
-export default CreateBlogPage;
+export default CreateBlog;
+
 
 

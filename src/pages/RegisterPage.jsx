@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-const RegisterPage = () => {
+const Register = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -98,5 +98,5 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default Register;
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-const LoginPage = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -140,4 +140,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;
