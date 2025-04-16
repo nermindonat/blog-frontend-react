@@ -1,6 +1,6 @@
 # Blog List Page
 
-![image](https://github.com/user-attachments/assets/3abc572a-7542-4bbd-807f-d97f98f5bdd3)
+![image](https://github.com/user-attachments/assets/b4de3933-9162-4eb9-9aaf-3862b25f1a29)
 
 # Login Page
 
