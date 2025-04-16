@@ -103,7 +103,7 @@ const BlogDetail = () => {
     {
       id: 3,
       title: "Elektronik Ödeme Sistemleri ve Güvenlik",
-      author: "Ahmet Kaya",
+      author: "Ahmet Tunç",
       authorImage: "https://randomuser.me/api/portraits/men/64.jpg",
       date: "13 Mart 2024",
       readTime: "6 dk",
@@ -195,9 +195,7 @@ const BlogDetail = () => {
         <p class="mb-4">Modern POS cihazları, işletmenizin verimliliğini artırmada önemli bir role sahiptir. Doğru POS çözümünü seçerek işlemlerinizi hızlandırabilir, müşteri memnuniyetini artırabilir ve işletmenizin büyümesine katkıda bulunabilirsiniz.</p>
         <p class="mb-4">Daha fazla bilgi için bizimle iletişime geçebilir, ihtiyaçlarınıza özel çözümler için danışabilirsiniz.</p>
       `,
-      relatedPosts: [
-        "Dijital Bankacılık: Finans Dünyasında Yeni Bir Çağ",
-      ],
+      relatedPosts: ["Dijital Bankacılık: Finans Dünyasında Yeni Bir Çağ"],
     },
   ];
 
@@ -213,7 +211,9 @@ const BlogDetail = () => {
   // İlgili blog yazılarını alıyorum
   const relatedPosts = blog.relatedPosts
     ? blog.relatedPosts
-        .map((postTitle) => blogs.find((b) => slugify(b.title) === slugify(postTitle)))
+        .map((postTitle) =>
+          blogs.find((b) => slugify(b.title) === slugify(postTitle))
+        )
         .filter(Boolean)
     : [];
 
@@ -352,5 +352,3 @@ const BlogDetail = () => {
 };
 
 export default BlogDetail;
-
-

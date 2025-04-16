@@ -31,7 +31,7 @@ const BlogListData = () => {
       title: "Elektronik Ödeme Sistemleri ve Güvenlik",
       excerpt:
         "E-ticaret ve fiziksel mağazalarda ödeme güvenliğini artıran yöntemler ve teknolojiler.",
-      author: "Ahmet Kaya",
+      author: "Ahmet Tunç",
       date: "13 Mart 2024",
       readTime: "6 dk",
       image:
@@ -110,5 +110,3 @@ const BlogListData = () => {
 };
 
 export default BlogListData;
-
-

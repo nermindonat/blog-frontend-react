@@ -7,16 +7,16 @@ import Button from "../components/Button";
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string()
-    .required("Ad Soyad gereklidir")
+    .required("Ad Soyad alanı zorunludur.")
     .min(3, "Ad Soyad en az 3 karakter olmalıdır"),
   email: Yup.string()
     .email("Geçerli bir e-posta adresi giriniz")
-    .required("E-posta adresi gereklidir"),
+    .required("E-posta alanı zorunludur."),
   phone: Yup.string()
-    .required("Telefon numarası gereklidir")
+    .required("Telefon numarası zorunludur.")
     .matches(/^[0-9]{10}$/, "Geçerli bir telefon numarası giriniz"),
   password: Yup.string()
-    .required("Şifre gereklidir")
+    .required("Şifre alanı zorunludur.")
     .min(6, "Şifre en az 6 karakter olmalıdır")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/,

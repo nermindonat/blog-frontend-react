@@ -8,9 +8,9 @@ import Button from "../components/Button";
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Geçerli bir e-posta adresi giriniz")
-    .required("E-posta adresi gereklidir"),
+    .required("E-posta alanı zorunludur."),
   password: Yup.string()
-    .required("Şifre gereklidir")
+    .required("Şifre alalnı zorunludur.")
     .min(6, "Şifre en az 6 karakter olmalıdır"),
 });
 
